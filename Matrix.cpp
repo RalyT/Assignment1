@@ -178,3 +178,219 @@ bool operator!=(const Matrix& lhs, const Matrix& rhs) {
     return !operator==(lhs,rhs);
 }
 
+/**
+ * Overloaded pre-fix increment operator for matrices
+ * @param m
+ */
+Matrix& Matrix::operator++() {
+
+    for (int i = 0; i < this->matrix.size(); i++) {
+        for (int j = 0; j < this->matrix[i].size(); j++) {
+            this->matrix[i][j] += 1.0;
+        }
+    }
+}
+
+/**
+ * Overloaded post-fix increment operator for matrices
+ * @param m
+ */
+Matrix Matrix::operator++(int) {
+
+    Matrix tmp(*this);
+    operator++();
+    return tmp;
+}
+
+/**
+ * Overloaded pre-fix decrement operator for matrices
+ * @param m
+ */
+Matrix& Matrix::operator--() {
+
+    for (int i = 0; i < this->matrix.size(); i++) {
+        for (int j = 0; j < this->matrix[i].size(); j++) {
+            this->matrix[i][j] -= 1.0;
+        }
+    }
+}
+
+/**
+ * Overloaded post-fix decrement operator for matrices
+ * @param m
+ */
+Matrix Matrix::operator--(int) {
+
+    Matrix tmp(*this);
+    operator--();
+    return tmp;
+}
+
+/**
+ * Swaps the values of two matrices.
+ * @param lhs matrix
+ * @param rhs matrix
+ */
+void swap(Matrix& lhs, Matrix& rhs) {
+    using std::swap;
+    for (int i = 0; i < lhs.matrix.size(); i++) {
+        for (int j = 0; j < lhs.matrix[i].size(); j++) {
+            swap(lhs.matrix[i][j], rhs.matrix[i][j]);
+        }
+    }
+}
+
+/**
+ * Overloaded assignment operator for matrices
+ * @param other
+ * @return
+ */
+Matrix& Matrix::operator=(Matrix other) {
+    swap(*this, other);
+    return *this;
+}
+
+/**
+ * Overloaded + Operator.
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+Matrix operator+(Matrix lhs, const Matrix& rhs) {
+
+    // Checks if the size of the matrices are the same
+    if(lhs.matrix.size() == rhs.matrix.size()
+       && lhs.matrix[0].size() == rhs.matrix[0].size()) {
+        for (int i = 0; i < lhs.matrix.size(); i++) {
+            for (int j = 0; j < lhs.matrix[i].size(); j++) {
+                lhs.matrix[i][j] += rhs.matrix[i][j];
+            }
+        }
+        return lhs;
+    } else {
+        throw "Exception: Matrices are not the same size for addition.";
+    }
+}
+
+/**
+ * Overloaded += operator.
+ * @param rhs
+ * @return
+ */
+Matrix& Matrix::operator+=(const Matrix& rhs) {
+    if(this->matrix.size() == rhs.matrix.size()
+       && this->matrix[0].size() == rhs.matrix[0].size()) {
+        for (int i = 0; i < this->matrix.size(); i++) {
+            for (int j = 0; j < this->matrix[i].size(); j++) {
+                this->matrix[i][j] += rhs.matrix[i][j];
+            }
+        }
+        return *this;
+    } else {
+        throw "Exception: Matrices are not the same size for addition.";
+    }
+}
+
+/**
+ * Overloaded - Operator.
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+Matrix operator-(Matrix lhs, const Matrix& rhs) {
+
+    // Checks if the size of the matrices are the same
+    if(lhs.matrix.size() == rhs.matrix.size()
+       && lhs.matrix[0].size() == rhs.matrix[0].size()) {
+        for (int i = 0; i < lhs.matrix.size(); i++) {
+            for (int j = 0; j < lhs.matrix[i].size(); j++) {
+                lhs.matrix[i][j] -= rhs.matrix[i][j];
+            }
+        }
+        return lhs;
+    } else {
+        throw "Exception: Matrices are not the same size for addition.";
+    }
+}
+
+/**
+ * Overloaded -= operator.
+ * @param rhs
+ * @return
+ */
+Matrix& Matrix::operator-=(const Matrix& rhs) {
+    if(this->matrix.size() == rhs.matrix.size()
+       && this->matrix[0].size() == rhs.matrix[0].size()) {
+        for (int i = 0; i < this->matrix.size(); i++) {
+            for (int j = 0; j < this->matrix[i].size(); j++) {
+                this->matrix[i][j] -= rhs.matrix[i][j];
+            }
+        }
+        return *this;
+    } else {
+        throw "Exception: Matrices are not the same size for addition.";
+    }
+}
+
+/**
+ * Overloaded * Operator.
+ * @param lhs
+ * @param rhs
+ * @return
+ */
+Matrix operator*(Matrix lhs, const Matrix& rhs) {
+
+    // Checks if the number of columns in the 1st matrix is equal to the number of rows in the second matrix
+    if(lhs.matrix[0].size() == rhs.matrix.size()) {
+
+        // New matrix of new size
+        vector< vector<double> > newMatrix;
+        double multiValue = 0.0;
+
+        for(int i = 0; i < lhs.matrix.size(); i++) {
+            vector<double> newMatrixRow;
+
+            for(int k = 0; k < rhs.matrix[0].size(); k++) {
+                for(int j = 0; j < lhs.matrix[i].size(); j++) {
+                    multiValue += (lhs.matrix[i][j] * rhs.matrix[j][i]);
+                }
+                newMatrixRow.push_back(multiValue);
+            }
+            newMatrix.push_back(newMatrixRow);
+        }
+        lhs.matrix = newMatrix;
+        return lhs;
+    } else {
+        throw "Exception: Matrices cannot be multipled";
+    }
+}
+
+/**
+ * Overloaded *= operator.
+ * @param rhs
+ * @return
+ */
+Matrix& Matrix::operator*=(const Matrix& rhs) {
+    if(this->matrix[0].size() == rhs.matrix.size()) {
+
+        // New matrix of new size
+        vector< vector<double> > newMatrix;
+        double multiValue = 0.0;
+
+        for(int i = 0; i < this->matrix.size(); i++) {
+            vector<double> newMatrixRow;
+
+            for(int k = 0; k < rhs.matrix[0].size(); k++) {
+                for(int j = 0; j < this->matrix[i].size(); j++) {
+                    multiValue += (this->matrix[i][j] * rhs.matrix[j][i]);
+                }
+                newMatrixRow.push_back(multiValue);
+            }
+            newMatrix.push_back(newMatrixRow);
+        }
+        this->matrix = newMatrix;
+        return *this;
+    } else {
+        throw "Exception: Matrices cannot be multipled";
+    }
+}

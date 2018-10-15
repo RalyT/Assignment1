@@ -26,7 +26,27 @@ public:
     // Destructor
     ~Matrix();
 
+    // Overloading == and != operators
     friend bool operator==(const Matrix& lhs, const Matrix& rhs);
     friend bool operator!=(const Matrix& lhs, const Matrix& rhs);
+    // Overloading increment and decrement operators
+    Matrix& operator++();
+    Matrix operator++(int);
+    Matrix& operator--();
+    Matrix operator--(int);
+
+    // Swap function
+    friend void swap(Matrix& lhs, Matrix& rhs);
+    Matrix& operator=(Matrix other);
+
+    // Overloading + and += operators
+    friend Matrix operator+(Matrix lhs, const Matrix& rhs);
+    Matrix& operator+=(const Matrix& rhs);
+    // Overloading - and -= operators
+    friend Matrix operator-(Matrix lhs, const Matrix& rhs);
+    Matrix& operator-=(const Matrix& rhs);
+    // Overloading * and *= operators
+    friend Matrix operator*(Matrix lhs, const Matrix& rhs);
+    Matrix& operator*=(const Matrix& rhs);
 };
 #endif //LAB03_MATRIX_HPP
