@@ -21,7 +21,7 @@ public:
     Matrix(int r, int c);
     Matrix(double intArr[], int arrSize);
     void set_Value(int row, int column, double newVal);
-    double get_value(int row, int column);
+    double get_Value(int row, int column);
     void clear();
     // Destructor
     ~Matrix();

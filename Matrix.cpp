@@ -96,7 +96,7 @@ void Matrix::set_Value(int row, int column, double newVal) {
  * @param row
  * @param column
  */
-double Matrix::get_value(int row, int column) {
+double Matrix::get_Value(int row, int column) {
 
     if(row < 0 || row > matrix.size()
        || column < 0 || column > matrix[0].size()) {
