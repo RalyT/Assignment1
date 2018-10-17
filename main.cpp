@@ -89,25 +89,30 @@ int main() {
     double p = 0.85;
 
     // Matrix Q with all elemented = 1 / n
-    Matrix Q(4, 4);
+    ConnectivityMatrix Q(4, 4);
+
     try {
         for(int i = 0; i < Q.get_Row_Size(); i++) {
-            double evenDistribution = 1 / S.get_Col_Size(i);
+            double evenDistribution = 1.0 / S.get_Col_Size(i);
             for(int j = 0; j < Q.get_Col_Size(i); j++) {
-                S.set_Value(i, j, evenDistribution);
+                Q.set_Value(i, j, evenDistribution);
             }
         }
     } catch (const char* msg) {
         cout << msg << endl;
     }
 
+    cout << "Connectivity Matrix Q:" << endl;
+    Q.print_Matrix();
+    cout << endl;
+
     // Transition Matrix
     // Throwing Exception here
-//    try {
-//        Matrix M = p * S + (1 - p) * Q;
-//    } catch (const char* msg) {
-//        cout << msg << endl;
-//    }
+    try {
+        Matrix M = p * S + (1 - p) * Q;
+    } catch (const char* msg) {
+        cout << msg << endl;
+    }
 
 
 //    // Step 13
