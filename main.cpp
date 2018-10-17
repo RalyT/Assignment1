@@ -32,10 +32,11 @@ int main() {
 
     cout << "Connectivity Matrix G:" << endl;
     G.print_Matrix();
+    cout << endl;
 
     // Step 8
-    // Creating our Initialization Matrix
-    Matrix S(sizeOfWebpages, sizeOfWebpages);
+    // Creating our Probability Matrix S
+    ConnectivityMatrix S(sizeOfWebpages, sizeOfWebpages);
 
     try {
         for(int i = 0; i < G.get_Row_Size(); i++) {
@@ -53,26 +54,35 @@ int main() {
         cout << msg << endl;
     }
 
+    cout << "Connectivity Matrix S:" << endl;
+    S.print_Matrix();
+    cout << endl;
+
     // Step 9
     try {
+        // Searches for all columns of only 0's
         for(int i = 0; i < S.get_Row_Size(); i++) {
             int numOfZeros = 0;
             for(int j = 0; j < S.get_Col_Size(i); j++) {
-                if(S.get_Value(i,j) == 0.0) {
+                if(S.get_Value(j,i) == 0.0) {
                     numOfZeros++;
                 }
             }
-            // Found the column of all zeros
+            // Found a column of all zeros, applying 1/n
             if(numOfZeros == S.get_Col_Size(i)) {
-                double evenDistribution = 1 / S.get_Col_Size(i);
+                double evenDistribution = 1.0 / S.get_Col_Size(i);
                 for(int j = 0; j < S.get_Col_Size(i); j++) {
-                    S.set_Value(i, j, evenDistribution);
+                    S.set_Value(j, i, evenDistribution);
                 }
             }
         }
     } catch (const char* msg) {
         cout << msg << endl;
     }
+
+    cout << "Connectivity Matrix S:" << endl;
+    S.print_Matrix();
+    cout << endl;
 
     // Step 11 - 12
     // Random Walk Probability Factor
