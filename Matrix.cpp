@@ -36,7 +36,8 @@ Matrix::Matrix(int n) {
 
 /**
  * Constructor that initializes a r x c matrix with values of 0.0
- * @param n
+ * @param r Row
+ * @param c Column
  */
 Matrix::Matrix(int r, int c) {
 
@@ -96,13 +97,39 @@ void Matrix::set_Value(int row, int column, double newVal) {
  * @param row
  * @param column
  */
-double Matrix::get_Value(int row, int column) {
+double Matrix::get_Value(int row, int column) const {
 
     if(row < 0 || row > matrix.size()
        || column < 0 || column > matrix[0].size()) {
         throw "Exception: Parameter Row or Column must be within matrix index";
     } else {
         return matrix[row][column];
+    }
+}
+
+/**
+ * Returns the current size of Rows in the Matrix.
+ * @param row
+ * @return int Size
+ */
+int Matrix::get_Row_Size() const{
+    return matrix.size();
+}
+
+/**
+ * Returns the current size of Column for the row in the Matrix.
+ * @return int Size
+ */
+int Matrix::get_Col_Size(int row) const{
+    return matrix[row].size();
+}
+
+void Matrix::print_Matrix() const {
+    for(int i = 0; i < get_Row_Size(); i++) {
+        for(int j = 0; j < get_Col_Size(i); j++) {
+            cout << get_Value(i,j) << " ";
+        }
+        cout << endl;
     }
 }
 
@@ -132,9 +159,9 @@ Matrix::~Matrix() {
  */
 ostream& operator<<(std::ostream& os, const Matrix& a) {
 
-    for (int i = 0; i < a.matrix.size(); i++) {
-        for (int j = 0; j < a.matrix[i].size(); j++) {
-            cout << a.matrix[i][j] << "  ";
+    for (int i = 0; i < a.get_Row_Size(); i++) {
+        for (int j = 0; j < a.get_Col_Size(i); j++) {
+            cout << a.get_Value(i,j) << "  ";
         }
         cout << endl;
     }

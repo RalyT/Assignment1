@@ -11,20 +11,32 @@
 #include <math.h>
 using namespace std;
 
+/**
+ * Base Matrix Class
+ */
 class Matrix {
 
-public:
+protected:
     std::vector< vector<double> > matrix;
 
+public:
+
+    // Constructors
     Matrix();
     Matrix(int n);
     Matrix(int r, int c);
     Matrix(double intArr[], int arrSize);
-    void set_Value(int row, int column, double newVal);
-    double get_Value(int row, int column);
-    void clear();
+
     // Destructor
     ~Matrix();
+
+    // Accessors and Mutators
+    void set_Value(int row, int column, double newVal);
+    double get_Value(int row, int column) const;
+    int get_Row_Size() const;
+    int get_Col_Size(int row) const;
+    void print_Matrix() const;
+    void clear();
 
     // Overloading == and != operators
     friend bool operator==(const Matrix& lhs, const Matrix& rhs);
